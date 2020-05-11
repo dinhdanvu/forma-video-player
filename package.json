@@ -2,7 +2,7 @@
   "name": "forma-video-player",
   "version": "1.0.1",
   "description": "A react native video player packaged with controls that can be customized",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest",
     "build": "babel src -d dist --ignore *.test.js --source-maps",

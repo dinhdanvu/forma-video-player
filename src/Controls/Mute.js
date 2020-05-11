@@ -27,7 +27,7 @@ class Mute extends Component {
 
     return (
       <View style={container}>
-        <CircularButton radius={styles.muteSize} onPress={this.toggleMute} style={button} underlayColor={underlayColor}>
+        <CircularButton radius={20} onPress={this.toggleMute} style={button} underlayColor={underlayColor}>
           {
             muted ? (
               <Icon name="volume-off" size={icon.size} color={icon.color} />

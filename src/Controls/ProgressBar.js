@@ -51,9 +51,9 @@ export const Connected = connectVideo(['currentTime', 'duration', 'ref', 'styles
 
 export const Styled = styles((styles, theme) => ({
   bar: {
-    thumbTintColor: styles.ProgressBar.thumbTintColor || '#f00',
+    thumbTintColor: styles.ProgressBar.thumbTintColor || '#7E6CFB',
     trackStyle: styles.ProgressBar.trackStyle || {backgroundColor: 'gray', borderRadius: 0},
-    thumbStyle: styles.ProgressBar.thumbStyle || {width: 10, height: 10, borderWidth: 1, borderColor: 'red'},
+    thumbStyle: styles.ProgressBar.thumbStyle || {width: 10, height: 10, borderWidth: 1, borderColor: '#7E6CFB'},
     minimumTrackTintColor: styles.ProgressBar.minimumTrackTintColor || '#7E6CFB'
   }
 }))(Connected)

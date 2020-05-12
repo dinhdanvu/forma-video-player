@@ -52,7 +52,7 @@ export const Connected = connectVideo(['currentTime', 'duration', 'ref', 'styles
 export const Styled = styles((styles, theme) => ({
   bar: {
     thumbTintColor: styles.ProgressBar.thumbTintColor || '#f00',
-    trackStyle: styles.ProgressBar.trackStyle || {backgroundColor: '#666677ff', borderRadius: 0},
+    trackStyle: styles.ProgressBar.trackStyle || {backgroundColor: '7E6CFB', borderRadius: 0},
     thumbStyle: styles.ProgressBar.thumbStyle || {width: 10, height: 10, borderWidth: 1, borderColor: 'red'},
     minimumTrackTintColor: styles.ProgressBar.minimumTrackTintColor || '#f00'
   }

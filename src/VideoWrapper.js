@@ -33,9 +33,11 @@ export class VideoWrapper extends Component {
       this.props.actions.currentTime(0)
     }
     else {
-      this.props.actions.paused(true)
-      this.props.actions.ended(true)
-      this.props.actions.currentTime(this.props.player.duration)
+      // this.props.actions.paused(true)
+      // this.props.actions.ended(true)
+      // this.props.actions.currentTime(this.props.player.duration)
+      this.playerRef.seek(0)
+      this.props.actions.currentTime(0)
     }
   }
 

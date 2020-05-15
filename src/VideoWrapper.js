@@ -9,11 +9,13 @@ export class VideoWrapper extends Component {
 
 
   loadStart = () => {
+    this.props.resetOverlay()
     this.props.actions.loading(true)
     this.props.videoProps.loadStart && this.props.videoProps.loadStart()
   }
 
   onLoad = ({ duration }) => {
+    this.props.resetOverlay()
     this.props.actions.loading(false)
     this.props.actions.loaded(true)
     this.props.actions.duration(duration)
@@ -24,8 +26,11 @@ export class VideoWrapper extends Component {
   onProgress = (time) => {
     this.props.actions.progress(time)
     this.props.videoProps.onProgress && this.props.videoProps.onProgress(time)
+
     if (time.currentTime >= this.props.videoProps.introStart && time.currentTime <= this.props.videoProps.introEnd) {
+
       this.props.videoProps.showSkipIntroButton();
+      this.props.showOverlay();
     } else {
       if (time.currentTime >= this.props.videoProps.introStart)
         this.props.videoProps.hideSkipIntroButton();
@@ -34,7 +39,7 @@ export class VideoWrapper extends Component {
 
   onEnd = () => {
     this.props.videoProps.onEnd && this.props.videoProps.onEnd()
-
+    this.props.resetOverlay()
     if (this.props.player.repeat) {
       this.playerRef.seek(0)
       this.props.actions.currentTime(0)

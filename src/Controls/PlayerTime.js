@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text
 } from 'react-native';
 
-import {connectVideo} from '../connectVideo'
+import { connectVideo } from '../connectVideo'
 import styles from '../styles'
 
 
@@ -14,34 +14,34 @@ export class PlayerTime extends Component {
     super(props);
   }
 
-  renderTime = (timeInSeconds) => {
-    const {text} = this.props.styles
+  renderTime = (timeInSeconds) => { // 0:00 / 31:39
+    const { text } = this.props.styles
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor(timeInSeconds / 60) - (hours * 60);
     let seconds = timeInSeconds - (minutes * 60);
 
-    if(seconds < 10) {
+    if (seconds < 10) {
       seconds = `0${seconds}`;
     }
 
     return (
       <Text
-        style={{color: text.color, fontSize: text.size}}
-        >
-        {hours?`${hours}:`:null}
+        style={{ color: text.color, fontSize: 18 }}
+      >
+        {hours ? `${hours}:` : null}
         {minutes}:{seconds}
       </Text>
     )
   }
 
   render() {
-    const {currentTime, duration} = this.props.player
-    const {container, text} = this.props.styles
+    const { currentTime, duration } = this.props.player
+    const { container, text } = this.props.styles
 
     return (
       <View style={container}>
         {this.renderTime(Math.floor(currentTime || 0))}
-        <Text style={{color: text.color, fontSize: text.size, marginHorizontal: 2}}>/</Text>
+        <Text style={{ color: text.color, fontSize: 18, marginHorizontal: 2 }}>/</Text>
         {this.renderTime(Math.floor(duration))}
       </View>
     )

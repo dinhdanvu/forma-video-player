@@ -1,108 +1,111 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
-  View,
-  Text,
-  TouchableHighlight,
+  View
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import Spinner from 'react-native-spinkit'
+import PropTypes from 'prop-types';
 
-import {connectVideo} from '../connectVideo'
-import {actions} from '../state'
-import CircularButton from './CircularButton'
-import styles from '../styles'
+import VideoWrapper from './VideoWrapper'
+import PlayerControls from './PlayerControls'
+import Overlay from './Overlay'
+import { connectVideo } from './connectVideo'
+import { actions } from './state'
+import styles from './styles'
+import { makeTheme } from './util'
 
+const videoPropsToSet = [
+  'source', 'rate', 'volume', 'muted', 'paused', 'resizeMode', 'repeat', 'playInBackground', 'name'
+]
+const propsToWatch = [
+  'back', 'styles'
+]
 
-class Play extends Component {
+export class Player extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
+    this.state = {
+      forceShow: false,
+      isShow: false,
+    }
+    this.setStateFromVideoProps()
+    props.theme && props.actions.theme(makeTheme(props.theme))
   }
 
-  togglePaused = () => {
-    const {buffering, paused} = this.props.player
+  setStateFromVideoProps = () => {
 
-    if(buffering) {
-      paused && this.props.actions.pause(false)
-    }
-    else {
-      this.props.actions.pause(!paused)
-    }
+    videoPropsToSet.forEach((prop) => {
+      (typeof this.props.videoProps[prop] != 'undefined') && this.props.actions[prop](this.props.videoProps[prop])
+    })
+
   }
 
-  replay = () => {
-    this.props.player.ref.seek(0)
-    setTimeout(() => {
-      this.props.actions.currentTime(0)
-      this.props.actions.pause(false)
-      this.props.actions.ended(false)
+
+
+  componentWillReceiveProps(newProps) {
+    propsToWatch.forEach((prop) => {
+      if ((typeof newProps[prop] != 'undefined') && newProps[prop] != this.props.player[prop]) {
+        this.props.actions[prop](newProps[prop])
+      }
     })
   }
 
-  onPress = () => {
-    this.props.player.ended ? this.replay() : this.togglePaused()
-  }
+  showOverlay(forceShow) {
 
-  renderIcon = () => {
-    const {paused, ended, buffering} = this.props.player
-    const {icon} = this.props.styles
-    let iconName
-
-    if(paused) {
-      iconName = (ended ? 'replay' : 'play-arrow')
-    }
-    else if(buffering) {
-      iconName = 'play-arrow'
-    }
-    else {
-      iconName = 'pause'
-    }
-
-    return (<Icon name={iconName} size={this.props.buttonSize} color={icon.color} />)
   }
 
   render() {
-    const {paused, ended, buffering} = this.props.player
-    const {container, button, underlayColor, icon} = this.props.styles
-
 
     return (
-      <View style={container}>
-        <CircularButton radius={50} onPress={this.onPress} style={button} underlayColor={underlayColor}>
-          {this.renderIcon()}
-        </CircularButton>
-        <View style={{height: 30}}>
-          <Spinner isVisible={buffering} size={30} type='ThreeBounce' color='#ffffff' />
-        </View>
+      <View style={{ flex: 1, width: '100%' }}>
+        <VideoWrapper resetOverlay={() => {
+          this.setState({ isShow: false })
+        }} showOverlay={() => {
+          if (this.state.forceShow == false && !this.state.isShow) {
+            this.setState({ forceShow: true })
+            setTimeout(() => {
+              this.setState({ forceShow: false, isShow: true })
+            }, 5000);
+          }
+        }} videoProps={this.props.videoProps} />
+        <Overlay
+          fadeDuration={300}
+          displayDuration={5000}
+          forceVisible={this.props.player.paused || this.props.player.buffering || this.state.forceShow}>
+          <PlayerControls layout={this.props.layout} />
+        </Overlay>
       </View>
     )
   }
-
 }
 
-export const Connected = connectVideo(['paused', 'ended', 'buffering', 'ref'], {
-  pause: actions.paused,
-  ended: actions.ended,
-  currentTime: actions.currentTime
-})(Play)
-
-export const Styled = styles((styles, theme) => ({
-  button: {
-    padding: 5,
-    margin: 5,
-    backgroundColor: styles.Play.buttonColor || 'transparent'
-  },
-  container: {
-    backgroundColor: styles.Play.backgroundColor || theme.control.backgroundColor,
-    paddingTop: 30,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  underlayColor: styles.Play.underlayColor || theme.control.underlayColor,
-  icon: {
-    size: styles.Play.size || 50,
-    color: styles.Play.iconColor || theme.control.iconColor
+Player.defaultStyles = {
+  player: {
+    flex: 1
   }
-}))(Connected)
+}
 
-export default Styled
+Player.propTypes = {
+  videoProps: PropTypes.shape({
+    name: PropTypes.string,
+    source: PropTypes.shape({
+      uri: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired,
+  back: PropTypes.func,
+  styles: PropTypes.object,
+  theme: PropTypes.object,
+  layout: PropTypes.shape({
+    Header: PropTypes.object,
+    Body: PropTypes.object,
+    Footer: PropTypes.object
+  })
+}
+
+export const Connected = connectVideo(['paused', 'buffering', 'theme'].concat(videoPropsToSet).concat(propsToWatch),
+  videoPropsToSet.concat(propsToWatch).reduce((result, prop) => {
+    result[prop] = actions[prop]
+    return result
+  }, { theme: actions.theme })
+)(Player)
+
+export default Connected

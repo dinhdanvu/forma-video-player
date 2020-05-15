@@ -1,18 +1,19 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Video from 'react-native-video'
 
-import {connectVideo} from './connectVideo'
-import {actions} from './state'
-import {makeStyles} from './util'
+import { connectVideo } from './connectVideo'
+import { actions } from './state'
+import { makeStyles } from './util'
 
 export class VideoWrapper extends Component {
+
 
   loadStart = () => {
     this.props.actions.loading(true)
     this.props.videoProps.loadStart && this.props.videoProps.loadStart()
   }
 
-  onLoad = ({duration}) => {
+  onLoad = ({ duration }) => {
     this.props.actions.loading(false)
     this.props.actions.loaded(true)
     this.props.actions.duration(duration)
@@ -23,12 +24,18 @@ export class VideoWrapper extends Component {
   onProgress = (time) => {
     this.props.actions.progress(time)
     this.props.videoProps.onProgress && this.props.videoProps.onProgress(time)
+    if (time.currentTime >= this.props.videoProps.introStart && time.currentTime <= this.props.videoProps.introEnd) {
+      this.props.videoProps.showSkipIntroButton();
+    } else {
+      if (time.currentTime >= this.props.videoProps.introStart)
+        this.props.videoProps.hideSkipIntroButton();
+    }
   }
 
   onEnd = () => {
     this.props.videoProps.onEnd && this.props.videoProps.onEnd()
 
-    if(this.props.player.repeat) {
+    if (this.props.player.repeat) {
       this.playerRef.seek(0)
       this.props.actions.currentTime(0)
     }
@@ -47,7 +54,7 @@ export class VideoWrapper extends Component {
     this.props.videoProps.onError && this.props.videoProps.onError(e)
   }
 
-  onBuffer = ({isBuffering}) => {
+  onBuffer = ({ isBuffering }) => {
     this.props.actions.buffering(isBuffering)
     this.props.videoProps.onBuffer && this.props.videoProps.onBuffer(isBuffering)
   }
@@ -64,8 +71,8 @@ export class VideoWrapper extends Component {
   }
 
   render() {
-    const {videoProps} = this.props
-    const {source, rate, volume, muted, paused, resizeMode, repeat, playInBackground} = this.props.player
+    const { videoProps } = this.props
+    const { source, rate, volume, muted, paused, resizeMode, repeat, playInBackground } = this.props.player
 
     return (
       <Video
@@ -85,7 +92,7 @@ export class VideoWrapper extends Component {
         onError={this.onError}
         onBuffer={this.onBuffer}
         onTimedMetadata={this.onTimedMetadata}
-        style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}}
+        style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }}
       />
     )
   }

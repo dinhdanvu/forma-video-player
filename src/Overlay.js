@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Animated,
@@ -24,13 +24,13 @@ export default class Overlay extends Component {
   }
 
   tapped() {
-    if(!this.state.animating && !this.props.forceVisible) {
+    if (!this.state.animating && !this.props.forceVisible) {
 
-      if(!this.state.visible) {
-        this.setState({animating: true});
+      if (!this.state.visible) {
+        this.setState({ animating: true });
       }
 
-      if(timer.timeoutExists(this, 'hideOverlay')) {
+      if (timer.timeoutExists(this, 'hideOverlay')) {
         timer.clearTimeout(this, 'hideOverlay');
       }
 
@@ -41,10 +41,11 @@ export default class Overlay extends Component {
           duration: this.state.fadeDuration,
         },
       ).start(() => {
-        this.setState({animating: false, visible: true}, () => timer.setTimeout(
+        this.setState({ animating: false, visible: true }, () => timer.setTimeout(
           this, 'hideOverlay', () => {
-            if(this.props.forceVisible === false) {
-              this.setState({animating: true})
+            if (this.props.forceVisible === false) {
+              this.setState({ animating: true })
+
               Animated.timing(
                 this.state.fadeAnim,
                 {
@@ -53,7 +54,7 @@ export default class Overlay extends Component {
                   duration: this.state.fadeDuration
                 }
               ).start(() => {
-                this.setState({visible: false, animating: false})
+                this.setState({ visible: false, animating: false })
               })
             }
           }, this.state.displayDuration
@@ -62,7 +63,7 @@ export default class Overlay extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponderCapture: (evt) => {
         this.tapped()
@@ -72,7 +73,7 @@ export default class Overlay extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.forceVisible === true && this.props.forceVisible === false) {
+    if (nextProps.forceVisible === true && this.props.forceVisible === false) {
       Animated.timing(
         this.state.fadeAnim,
         {
@@ -81,10 +82,10 @@ export default class Overlay extends Component {
           duration: this.state.fadeDuration
         }
       ).start(() => {
-        this.setState({visible: true})
+        this.setState({ visible: true })
       })
     }
-    else if(nextProps.forceVisible === false && this.props.forceVisible === true) {
+    else if (nextProps.forceVisible === false && this.props.forceVisible === true) {
       Animated.timing(
         this.state.fadeAnim,
         {
@@ -93,7 +94,7 @@ export default class Overlay extends Component {
           duration: this.state.fadeDuration
         }
       ).start(() => {
-        this.setState({visible: false})
+        this.setState({ visible: false })
       })
     }
   }
@@ -105,9 +106,9 @@ export default class Overlay extends Component {
     } = this.props;
 
     return (
-      <View style={{position: 'absolute', top: 0, right: 0, bottom: 0, left: 0}} {...this._panResponder.panHandlers}>
-        <Animated.View style={[{flex: 1}, {opacity: this.state.fadeAnim}]}>
-          <View style={{flex: 1}} pointerEvents={this.state.visible ? 'auto' : 'none'}>
+      <View style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0 }} {...this._panResponder.panHandlers}>
+        <Animated.View style={[{ flex: 1 }, { opacity: this.state.fadeAnim }]}>
+          <View style={{ flex: 1 }} pointerEvents={this.state.visible ? 'auto' : 'none'}>
             {children}
           </View>
         </Animated.View>

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
 } from 'react-native';
 
-import {connectVideo} from '../connectVideo'
+import { connectVideo } from '../connectVideo'
 import styles from '../styles'
 
 export class Title extends Component {
@@ -14,12 +14,12 @@ export class Title extends Component {
   }
 
   render() {
-    const {name} = this.props.player
-    const {container, text} = this.props.styles
+    const { name } = this.props.player
+    const { container, text } = this.props.styles
 
     return (
       <View style={container}>
-        <Text numberOfLines={1} style={{fontSize: text.fontSize, color: text.color}}>{name}</Text>
+        <Text numberOfLines={1} style={{ fontSize: text.fontSize, color: text.color }}>{name}</Text>
       </View>
     )
   }
@@ -30,12 +30,12 @@ export const Connected = connectVideo(['name'])(Title)
 
 export const Styled = styles((styles, theme) => ({
   container: {
-    backgroundColor: styles.Title.backgroundColor || theme.control.backgroundColor,
+    backgroundColor: theme.control.backgroundColor,
     paddingHorizontal: 5
   },
   text: {
-    fontSize: styles.Title.fontSize || 20,
-    color: styles.Title.textColor || theme.control.textColor
+    fontSize: 20,
+    color: theme.control.textColor
   }
 }))(Connected)
 

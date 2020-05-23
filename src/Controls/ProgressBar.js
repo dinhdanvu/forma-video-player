@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text
 } from 'react-native';
 import Slider from 'react-native-slider'
 
-import {connectVideo} from '../connectVideo'
-import {actions} from '../state'
+import { connectVideo } from '../connectVideo'
+import { actions } from '../state'
 import styles from '../styles'
 
 class ProgressBar extends Component {
@@ -22,8 +22,8 @@ class ProgressBar extends Component {
   }
 
   render() {
-    const {currentTime, duration} = this.props.player
-    const {bar} = this.props.styles
+    const { currentTime, duration } = this.props.player
+    const { bar } = this.props.styles
 
     return (
       <Slider
@@ -36,9 +36,9 @@ class ProgressBar extends Component {
         thumbTintColor={bar.thumbTintColor}
         trackStyle={bar.trackStyle}
         thumbStyle={bar.thumbStyle}
-        thumbTouchSize={{width: 40, height: 40}}
+        thumbTouchSize={{ width: 40, height: 40 }}
         minimumTrackTintColor={bar.minimumTrackTintColor}
-        />
+      />
     )
   }
 
@@ -51,10 +51,10 @@ export const Connected = connectVideo(['currentTime', 'duration', 'ref', 'styles
 
 export const Styled = styles((styles, theme) => ({
   bar: {
-    thumbTintColor: styles.ProgressBar.thumbTintColor || '#7E6CFB',
-    trackStyle: styles.ProgressBar.trackStyle || {backgroundColor: 'gray', borderRadius: 0},
-    thumbStyle: styles.ProgressBar.thumbStyle || {width: 10, height: 10, borderWidth: 1, borderColor: '#7E6CFB'},
-    minimumTrackTintColor: styles.ProgressBar.minimumTrackTintColor || '#7E6CFB'
+    thumbTintColor: '#7E6CFB',
+    trackStyle: { backgroundColor: 'gray', borderRadius: 0 },
+    thumbStyle: { width: 10, height: 10, borderWidth: 1, borderColor: '#7E6CFB' },
+    minimumTrackTintColor: '#7E6CFB'
   }
 }))(Connected)
 

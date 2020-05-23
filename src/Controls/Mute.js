@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import CircularButton from './CircularButton'
-import {connectVideo} from '../connectVideo'
-import {actions} from '../state'
+import { connectVideo } from '../connectVideo'
+import { actions } from '../state'
 import styles from '../styles'
 
 class Mute extends Component {
@@ -22,8 +22,8 @@ class Mute extends Component {
   }
 
   render() {
-    const {muted} = this.props.player
-    const {container, button, underlayColor, icon} = this.props.styles
+    const { muted } = this.props.player
+    const { container, button, underlayColor, icon } = this.props.styles
 
     return (
       <View style={container}>
@@ -32,8 +32,8 @@ class Mute extends Component {
             muted ? (
               <Icon name="volume-off" size={icon.size} color={icon.color} />
             ) : (
-              <Icon name="volume-up" size={icon.size} color={icon.color} />
-            )
+                <Icon name="volume-up" size={icon.size} color={icon.color} />
+              )
           }
         </CircularButton>
       </View>
@@ -42,21 +42,21 @@ class Mute extends Component {
 
 }
 
-export const Connected = connectVideo(['muted'], {mute: actions.muted})(Mute)
+export const Connected = connectVideo(['muted'], { mute: actions.muted })(Mute)
 
 export const Styled = styles((styles, theme) => ({
   button: {
     padding: 5,
     margin: 5,
-    backgroundColor: styles.Mute.buttonColor || 'transparent'
+    backgroundColor: 'transparent'
   },
   container: {
-    backgroundColor: styles.Mute.backgroundColor || theme.control.backgroundColor
+    backgroundColor: theme.control.backgroundColor
   },
-  underlayColor: styles.Mute.underlayColor || theme.control.underlayColor,
+  underlayColor: theme.control.underlayColor,
   icon: {
-    size: styles.Mute.size || theme.control.size,
-    color: styles.Mute.iconColor || theme.control.iconColor
+    size: theme.control.size,
+    color: theme.control.iconColor
   }
 }))(Connected)
 

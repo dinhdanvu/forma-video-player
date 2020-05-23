@@ -14,7 +14,7 @@ export class PlayerTime extends Component {
     super(props);
   }
 
-  renderTime = (timeInSeconds) => { // 0:00 / 31:39
+  renderTime = (timeInSeconds) => {
     const { text } = this.props.styles
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor(timeInSeconds / 60) - (hours * 60);
@@ -26,8 +26,7 @@ export class PlayerTime extends Component {
 
     return (
       <Text
-        style={{ color: text.color, fontSize: 18 }}
-      >
+        style={{ color: text.color, fontSize: 18 }}>
         {hours ? `${hours}:` : null}
         {minutes}:{seconds}
       </Text>
@@ -53,13 +52,13 @@ export const Connected = connectVideo(['currentTime', 'duration'])(PlayerTime)
 
 export const Styled = styles((styles, theme) => ({
   container: {
-    backgroundColor: styles.PlayerTime.backgroundColor || theme.control.backgroundColor,
+    backgroundColor: theme.control.backgroundColor,
     margin: 5,
     flexDirection: 'row'
   },
   text: {
-    size: styles.PlayerTime.fontSize || theme.control.fontSize,
-    color: styles.PlayerTime.textColor || theme.control.textColor
+    size: theme.control.fontSize,
+    color: theme.control.textColor
   }
 }))(Connected)
 

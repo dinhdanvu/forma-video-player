@@ -16,7 +16,6 @@ export default class Overlay extends Component {
     this.state = {
       fadeAnim: new Animated.Value(props.forceVisible ? 1 : 0),
       animating: false,
-      useNativeDriver: false,
       fadeDuration: props.fadeDuration || 1000,
       displayDuration: props.displayDuration || 3000,
       visible: props.forceVisible ? true : false
@@ -39,13 +38,13 @@ export default class Overlay extends Component {
         {
           toValue: 1,
           duration: this.state.fadeDuration,
+          useNativeDriver: false,
         },
       ).start(() => {
         this.setState({ animating: false, visible: true }, () => timer.setTimeout(
           this, 'hideOverlay', () => {
             if (this.props.forceVisible === false) {
               this.setState({ animating: true })
-
               Animated.timing(
                 this.state.fadeAnim,
                 {

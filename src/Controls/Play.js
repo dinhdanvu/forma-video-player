@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -7,8 +7,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Spinner from 'react-native-spinkit'
 
-import {connectVideo} from '../connectVideo'
-import {actions} from '../state'
+import { connectVideo } from '../connectVideo'
+import { actions } from '../state'
 import CircularButton from './CircularButton'
 import styles from '../styles'
 
@@ -20,9 +20,9 @@ class Play extends Component {
   }
 
   togglePaused = () => {
-    const {buffering, paused} = this.props.player
+    const { buffering, paused } = this.props.player
 
-    if(buffering) {
+    if (buffering) {
       paused && this.props.actions.pause(false)
     }
     else {
@@ -44,14 +44,14 @@ class Play extends Component {
   }
 
   renderIcon = () => {
-    const {paused, ended, buffering} = this.props.player
-    const {icon} = this.props.styles
+    const { paused, ended, buffering } = this.props.player
+    const { icon } = this.props.styles
     let iconName
 
-    if(paused) {
+    if (paused) {
       iconName = (ended ? 'replay' : 'play-arrow')
     }
-    else if(buffering) {
+    else if (buffering) {
       iconName = 'play-arrow'
     }
     else {
@@ -62,8 +62,8 @@ class Play extends Component {
   }
 
   render() {
-    const {paused, ended, buffering} = this.props.player
-    const {container, button, underlayColor, icon} = this.props.styles
+    const { paused, ended, buffering } = this.props.player
+    const { container, button, underlayColor, icon } = this.props.styles
 
 
     return (
@@ -71,7 +71,7 @@ class Play extends Component {
         <CircularButton radius={50} onPress={this.onPress} style={button} underlayColor={underlayColor}>
           {this.renderIcon()}
         </CircularButton>
-        <View style={{height: 30}}>
+        <View style={{ height: 30 }}>
           <Spinner isVisible={buffering} size={30} type='ThreeBounce' color='#ffffff' />
         </View>
       </View>
@@ -90,18 +90,18 @@ export const Styled = styles((styles, theme) => ({
   button: {
     padding: 5,
     margin: 5,
-    backgroundColor: styles.Play.buttonColor || 'transparent'
+    backgroundColor: 'transparent'
   },
   container: {
-    backgroundColor: styles.Play.backgroundColor || theme.control.backgroundColor,
+    backgroundColor: theme.control.backgroundColor,
     paddingTop: 30,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  underlayColor: styles.Play.underlayColor || theme.control.underlayColor,
+  underlayColor: theme.control.underlayColor,
   icon: {
-    size: styles.Play.size || 50,
-    color: styles.Play.iconColor || theme.control.iconColor
+    size: 50,
+    color: theme.control.iconColor
   }
 }))(Connected)
 

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import {connectVideo} from '../connectVideo'
+import { connectVideo } from '../connectVideo'
 import styles from '../styles'
 
 
@@ -24,9 +24,9 @@ export class Back extends Component {
 
   render() {
 
-    const {container, button, underlayColor, icon} = this.props.styles
+    const { container, button, underlayColor, icon } = this.props.styles
 
-    if(!this.props.player.back) {
+    if (!this.props.player.back) {
       return null
     }
 
@@ -34,10 +34,10 @@ export class Back extends Component {
       <View style={container}>
         {
           Platform.OS === 'ios' ? (
-              <TouchableHighlight onPress={this.goBack} style={button} underlayColor={underlayColor}>
-                <Icon name="arrow-back" size={icon.size} color={icon.color} />
-              </TouchableHighlight>
-            ) : (
+            <TouchableHighlight onPress={this.goBack} style={button} underlayColor={underlayColor}>
+              <Icon name="arrow-back" size={icon.size} color={icon.color} />
+            </TouchableHighlight>
+          ) : (
               <TouchableNativeFeedback onPress={this.goBack} background={TouchableNativeFeedback.Ripple(underlayColor)}>
                 <View style={button}>
                   <Icon name="arrow-back" size={icon.size} color={icon.color} />
@@ -60,15 +60,15 @@ export const Styled = styles((styles, theme) => ({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: styles.Back.buttonColor || 'transparent'
+    backgroundColor: 'transparent'
   },
   container: {
-    backgroundColor: styles.Back.backgroundColor || theme.control.backgroundColor
+    backgroundColor: theme.control.backgroundColor
   },
-  underlayColor: styles.Back.underlayColor || theme.control.underlayColor,
+  underlayColor: theme.control.underlayColor,
   icon: {
-    size: styles.Back.size || theme.control.size,
-    color: styles.Back.iconColor || theme.control.iconColor
+    size: theme.control.size,
+    color: theme.control.iconColor
   }
 }))(Connected)
 

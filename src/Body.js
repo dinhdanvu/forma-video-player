@@ -5,9 +5,9 @@ import {
 import PropTypes from 'prop-types';
 
 import ControlGroup from './ControlGroup'
-import {makeStyles} from './util'
-import {Play} from './Controls'
-import {connectVideo} from './connectVideo'
+import { makeStyles } from './util'
+import { Play } from './Controls'
+import { connectVideo } from './connectVideo'
 import layout from './layout'
 import styles from './styles'
 
@@ -18,13 +18,13 @@ export class Body extends Component {
   }
 
   render() {
-    const {Left, Middle, Right} = this.props.layout
+    const { Left, Middle, Right } = this.props.layout
 
     return (
       <View style={this.props.styles.container}>
-        {React.cloneElement(Left, {defaultStyles: {justifyContent: 'flex-start'}})}
-        {React.cloneElement(Middle, {defaultStyles: {justifyContent: 'center'}})}
-        {React.cloneElement(Right, {defaultStyles: {justifyContent: 'flex-end'}})}
+        {React.cloneElement(Left, { defaultStyles: { justifyContent: 'flex-start' } })}
+        {React.cloneElement(Middle, { defaultStyles: { justifyContent: 'center' } })}
+        {React.cloneElement(Right, { defaultStyles: { justifyContent: 'flex-end' } })}
       </View>
     )
   }
@@ -59,7 +59,7 @@ const Layout = layout({
 
 const Styled = styles((styles, theme) => ({
   container: {
-    backgroundColor: styles.Body.backgroundColor || 'transparent',
+    backgroundColor: 'transparent',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'

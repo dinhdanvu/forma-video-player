@@ -54,14 +54,14 @@ export class Player extends Component {
     return (
       <View style={{ flex: 1, width: '100%' }}>
         <VideoWrapper resetOverlay={() => {
-          console.log('reset overlay-------------------------------')
+          // console.log('reset overlay-------------------------------')
           this.setState({ isShow: false })
         }} showOverlay={() => {
           if (this.state.forceShow == false && !this.state.isShow) {
-            console.log('force show overlay-------------------------------')
+            // console.log('force show overlay-------------------------------')
             this.setState({ forceShow: true })
             setTimeout(() => {
-              console.log('force hide overlay-------------------------------')
+              // console.log('force hide overlay-------------------------------')
               this.setState({ forceShow: false, isShow: true })
             }, 5000);
           }
